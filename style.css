@@ -1,0 +1,13 @@
+h1 {
+    font-family: 'Merriweather Sans', sans-serif;
+    font-weight: 100;
+}
+article {
+    font-family: 'Noto Serif', serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.45;
+    max-width: 700px;
+    margin: 0px auto;
+}
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+while true; do
+    coffee -c c.coffee
+    inotifywait -e close_write c.coffee
+done
