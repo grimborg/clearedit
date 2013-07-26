@@ -1,4 +1,6 @@
 class Editor
+    focus: =>
+        @element.focus()
     getLineToCursor: =>
         selection = window.getSelection()
         range = document.createRange()
@@ -37,13 +39,11 @@ class Editor
         range = document.createRange()
         range.setStart(selection.baseNode, selection.baseOffset - 1)
         range.setEnd(selection.baseNode, selection.baseOffset)
-        console.log(range)
         return range.toString()
     handleSpace: () =>
         selection = window.getSelection()
         if selection.baseOffset == 1
             char = @getPreviousCharacter(selection)
-            console.log(char)
             if char != '1' and char != '-'
                 return
             if char == '1'
@@ -52,16 +52,16 @@ class Editor
                 document.execCommand('insertunorderedlist', false, null)
             document.execCommand('delete', false, null)
         else
-            return False
+            return false
     handleEnter: () =>
         $('#edit div').contents().unwrap().wrap('<p/>')
-        return False
+        return false
     handleHyphen: () =>
         if @getPreviousCharacter() == '-'
             document.execCommand('delete', false, null)
             document.execCommand('insertHtml', false, '&mdash;')
         else
-            return False
+            return false
     constructor: (element) ->
         @element = element
     bindHotKeys: ->
@@ -78,10 +78,8 @@ class Editor
         element = @element
         $.each hotkeys, (hotkey, handler) ->
             key hotkey, (e, _) ->
-                console.log(hotkey)
-                result = handler()
-                console.log(result)
-                if result
+                shouldStopPropagation = handler()
+                if shouldStopPropagation
                     e.preventDefault()
                     e.stopPropagation()
                 return true
@@ -103,5 +101,6 @@ jQuery ->
             saver()
     )
     editor = new Editor($('#edit'))
+    editor.focus()
     editor.bindHotKeys()
 
